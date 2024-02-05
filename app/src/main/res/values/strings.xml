@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_login">Login</string>
+    <string name="title_signup">Signup</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_forgot">Forgot My Password</string>
+    <string name="title_movie">Movie Details</string>
+    <string name="title_add_post">Add Post</string>
+    <string name="title_user_posts">My Posts</string>
+</resources>

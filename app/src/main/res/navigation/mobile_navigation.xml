@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.myapplication.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_add_post"
+            app:destination="@id/navigation_add_post" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_detail_movie"
+            app:destination="@id/navigation_detail_movie" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.myapplication.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_movies"
+        android:name="com.example.myapplication.ui.movies.MoviesFragment"
+        android:label="@string/title_movies"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_navigation_movies_to_navigation_detail_movie"
+            app:destination="@id/navigation_detail_movie" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.myapplication.ui.login.LoginFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_navigation_login_to_navigation_signup"
+            app:destination="@id/navigation_signup"
+            app:popUpTo="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_login_to_navigation_forgot"
+            app:destination="@id/navigation_forgot" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_signup"
+        android:name="com.example.myapplication.ui.signup.SignupFragment"
+        android:label="@string/title_signup"
+        tools:layout="@layout/fragment_signup" />
+    <fragment
+        android:id="@+id/navigation_forgot"
+        android:name="com.example.myapplication.ui.forgot.ForgotFragment"
+        android:label="@string/title_forgot"
+        tools:layout="@layout/fragment_forgot">
+        <action
+            android:id="@+id/action_navigation_forgot_to_navigation_login"
+            app:destination="@id/navigation_login" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_detail_movie"
+        android:name="com.example.myapplication.ui.movies.DetailMovieFragment"
+        android:label="@string/title_movie"
+        tools:layout="@layout/fragment_detail_movie">
+        <argument
+            android:name="movieTitle"
+            app:argType="string" />
+        <argument
+            android:name="movieReview"
+            app:argType="string" />
+        <argument
+            android:name="movieRelease"
+            app:argType="string" />
+        <argument
+            android:name="moviePosterPath"
+            app:argType="string" />
+        <argument
+            android:name="movieVoteAverage"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_add_post"
+        android:name="com.example.myapplication.ui.post.AddPostFragment"
+        android:label="@string/title_add_post"
+        tools:layout="@layout/fragment_add_post" />
+    <fragment
+        android:id="@+id/navigation_user_posts"
+        android:name="com.example.myapplication.ui.userPosts.UserPostsFragment"
+        android:label="@string/title_user_posts"
+        tools:layout="@layout/fragment_user_posts" />
+</navigation>
