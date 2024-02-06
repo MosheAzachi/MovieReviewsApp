@@ -62,4 +62,6 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation ("com.squareup.moshi:moshi:1.12.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.12.0")
+    implementation ("com.google.android.gms:play-services-location:17.1.0")
+    implementation ("com.google.android.gms:play-services-maps:17.0.1")
 }

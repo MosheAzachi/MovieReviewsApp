@@ -92,4 +92,9 @@
         android:name="com.example.myapplication.ui.userPosts.UserPostsFragment"
         android:label="@string/title_user_posts"
         tools:layout="@layout/fragment_user_posts" />
+    <fragment
+        android:id="@+id/navigation_mapPosts"
+        android:name="com.example.myapplication.ui.mapPosts.MapPostsFragment"
+        android:label="@string/title_mapPosts"
+        tools:layout="@layout/fragment_map_posts" />
 </navigation>

@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.home
 
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,27 +50,31 @@ class PostAdapter(private val postList: List<Posts>,private val navController: N
         private val userFavorite = itemView.findViewById<TextView>(R.id.textViewFavMoviePost)
 
         fun bind(post: Posts) {
-            Picasso.get().load("https://image.tmdb.org/t/p/w500${post.movie.poster_path}").into(movieImage)
-            movieTitle.text = post.movie.title
-            movieOverview.text = "Review: " + post.review
-            movieRank.text = "Rank: " + post.rating + "/10"
-            getUserData(post.userId) { userData ->
-                if (userData != null) {
-                    userName.text="Name: "+userData.userName
-                    userAge.text="Age: "+userData.userAge
-                    userFavorite.text="Favorite Movie: "+userData.favoriteMovie
-                    Picasso.get().load(userData.url).into(userImage)
+            try {
+                Picasso.get().load("https://image.tmdb.org/t/p/w500${post.movie.poster_path}").into(movieImage)
+                movieTitle.text = post.movie.title
+                movieOverview.text = Html.fromHtml("<b>Review:</b> ${post.review}", Html.FROM_HTML_MODE_COMPACT)
+                movieRank.text = Html.fromHtml("<b>Rank:</b> ${post.rating}/10", Html.FROM_HTML_MODE_COMPACT)
+                getUserData(post.userId) { userData ->
+                    if (userData != null) {
+                        userName.text = Html.fromHtml("<b>Name:</b> ${userData.userName}", Html.FROM_HTML_MODE_COMPACT)
+                        userAge.text = Html.fromHtml("<b>Age:</b> ${userData.userAge}", Html.FROM_HTML_MODE_COMPACT)
+                        userFavorite.text = Html.fromHtml("<b>Favorite Movie:</b> ${userData.favoriteMovie}", Html.FROM_HTML_MODE_COMPACT)
+                        Picasso.get().load(userData.url).into(userImage)
+                    }
                 }
-            }
-            movieImage.setOnClickListener{
-                val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetailMovie(
-                    post.movie.title.toString(),
-                    post.movie.overview.toString(),
-                    post.movie.release_date.toString(),
-                    post.movie.poster_path.toString(),
-                    post.movie.vote_average.toString()
-                )
-                navController.navigate(action)
+                movieImage.setOnClickListener{
+                    val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetailMovie(
+                        post.movie.title.toString(),
+                        post.movie.overview.toString(),
+                        post.movie.release_date.toString(),
+                        post.movie.poster_path.toString(),
+                        post.movie.vote_average.toString()
+                    )
+                    navController.navigate(action)
+                }
+            } catch (e: Exception) {
+                Log.e("PostAdapter", "Error binding post data: ${e.message}")
             }
         }
     }

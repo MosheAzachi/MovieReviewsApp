@@ -69,6 +69,10 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.navigation_user_posts)
             return true
         }
+        if (item.itemId==R.id.postsMap) {
+            navController.navigate(R.id.navigation_mapPosts)
+            return true
+        }
         return super.onOptionsItemSelected(item)
     }
 }

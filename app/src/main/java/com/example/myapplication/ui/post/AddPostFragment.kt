@@ -2,7 +2,11 @@ package com.example.myapplication.ui.post
 
 import Movie
 import MovieResponse
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,11 +15,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.FragmentAddPostBinding
 import com.example.myapplication.models.Posts
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -25,7 +33,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.util.UUID
 
 class AddPostFragment : Fragment() {
     private lateinit var addPostBinding: FragmentAddPostBinding
@@ -37,6 +44,7 @@ class AddPostFragment : Fragment() {
 
     val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRefrence: DatabaseReference = database.reference.child("Posts")
+    val newPostRef = myRefrence.push()
 
     private val apiKey =
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZDg2ODdjODkyYzU5ZmE3YTc4ZDM0OWE2YThmM2U1MyIsInN1YiI6IjY1NzljZmU0NGQyM2RkMDEzYTEyYmJkYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OpyE_hkKw0mViyZowyb3UxWNUG0szs3vLvhztF13d2Y"
@@ -45,6 +53,10 @@ class AddPostFragment : Fragment() {
 
     private var searchJob: Job? = null
     private var isSearchEnabled: Boolean = true
+
+    // Location variables
+    private var userLatitude: Double? = null
+    private var userLongitude: Double? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +91,6 @@ class AddPostFragment : Fragment() {
                 }
             }
 
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not needed
             }
@@ -96,25 +107,8 @@ class AddPostFragment : Fragment() {
         }
         addPostBinding.buttonCreatePost.setOnClickListener {
             if (validateData()) {
-                val post = Posts(
-                    currentUser?.uid.toString(),
-                    movie,
-                    addPostBinding.editTextReview.text.toString(),
-                    addPostBinding.editTextRating.text.toString().toInt()
-                )
-                myRefrence.child(UUID.randomUUID().toString()).setValue(post)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Post has been created",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            val intent = Intent(activity, MainActivity::class.java)
-                            startActivity(intent)
-                        }
-                    }
+                // Request location permission first
+                requestLocationPermission()
             }
         }
         return view
@@ -174,7 +168,100 @@ class AddPostFragment : Fragment() {
     }
 
     private fun validateData(): Boolean {
-        return addPostBinding.editTextReview.text.isNotEmpty() && addPostBinding.editTextRating.text.isNotEmpty() && movie.title != null
+        return addPostBinding.editTextReview.text.isNotEmpty() &&
+                addPostBinding.editTextRating.text.isNotEmpty() &&
+                movie.title != null
     }
 
+    private fun requestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission already granted, proceed to get location
+            getLocation()
+        } else {
+            // Request location permission
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun getLocation() {
+        // Check for permission again before using location services
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission denied, handle accordingly
+            Toast.makeText(
+                requireContext(),
+                "Location permission denied. Cannot get location.",
+                Toast.LENGTH_SHORT
+            ).show()
+            // Continue with the post creation even if location permission is denied
+            createPostWithLocation()
+        } else {
+            val fusedLocationClient: FusedLocationProviderClient =
+                LocationServices.getFusedLocationProviderClient(requireActivity())
+
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    // Got last known location
+                    location?.let {
+                        userLatitude = it.latitude
+                        userLongitude = it.longitude
+                        Log.d(
+                            "AddPostFragment",
+                            "Latitude: $userLatitude, Longitude: $userLongitude"
+                        )
+                    }
+
+                    // Continue with the post creation
+                    createPostWithLocation()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("AddPostFragment", "Error getting location: ${e.message}")
+
+                    // Continue with the post creation even if location retrieval fails
+                    createPostWithLocation()
+                }
+        }
+    }
+
+    private fun createPostWithLocation() {
+        // Use userLatitude and userLongitude in your Posts object
+        val post = Posts(
+            currentUser?.uid.toString(),
+            movie,
+            addPostBinding.editTextReview.text.toString(),
+            addPostBinding.editTextRating.text.toString().toInt(),
+            userLatitude,
+            userLongitude
+        )
+
+        newPostRef.setValue(post)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Post has been created",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+    }
+
+    companion object {
+        // Request code for location permissions
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 123
+    }
 }

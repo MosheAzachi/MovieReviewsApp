@@ -2,6 +2,7 @@ package com.example.myapplication.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,10 +76,15 @@ class HomeFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 postList.clear()
                 for (postSnapshot in snapshot.children) {
-                    val post = postSnapshot.getValue(Posts::class.java)
-                    post?.let {
-                        postList.add(it)
+                    try {
+                        val post = postSnapshot.getValue(Posts::class.java)
+                        post?.let {
+                            postList.add(it)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("HomeFragment", "Error parsing post data: ${e.message}")
                     }
+
                 }
                 postAdapter.notifyDataSetChanged()
             }

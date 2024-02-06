@@ -38,21 +38,22 @@
         android:ems="10"
         android:hint="Movie Review"
         android:inputType="textMultiLine"
-        android:padding="15dp"
+        android:padding="13dp"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextUpdateMovieRank"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:ems="10"
-        android:hint="X"
+        android:hint="1-10"
         android:inputType="number"
-        android:padding="15dp"
+        android:padding="13dp"
+        android:textAlignment="center"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
         app:layout_constraintTop_toBottomOf="@+id/editTextUpdateMovieReview" />

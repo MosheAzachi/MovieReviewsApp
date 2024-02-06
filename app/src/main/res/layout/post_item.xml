@@ -1,96 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="#00BCD4">
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp">
 
-    <ImageView
-        android:id="@+id/imageProfileUser"
-        android:layout_width="68dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_baseline_account_circle_24dp" />
-
-    <ImageView
-        android:id="@+id/imageMoviePost"
-        android:layout_width="155dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/movie_icon" />
-
-    <TextView
-        android:id="@+id/textViewMovieTitlePost"
-        android:layout_width="155dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="Movie Title"
-        android:hyphenationFrequency="none"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageMoviePost" />
+        android:background="#00BCD4"
+        android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/textViewNamePost"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Full Name:"
-        android:hyphenationFrequency="none"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageProfileUser"
+            android:layout_width="68dp"
+            android:layout_height="78dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_baseline_account_circle_24dp" />
 
-    <TextView
-        android:id="@+id/textViewAgePost"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Age:"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNamePost" />
+        <ImageView
+            android:id="@+id/imageMoviePost"
+            android:layout_width="155dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/movie_icon" />
 
-    <TextView
-        android:id="@+id/textViewFavMoviePost"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Favorite Movie:"
-        android:hyphenationFrequency="none"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAgePost" />
+        <TextView
+            android:id="@+id/textViewMovieTitlePost"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:hyphenationFrequency="none"
+            android:text="Movie Title"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewRankPost"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageMoviePost" />
 
-    <TextView
-        android:id="@+id/textViewOverviewPost"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:hyphenationFrequency="none"
-        android:text="Overview:"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFavMoviePost" />
+        <TextView
+            android:id="@+id/textViewNamePost"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hyphenationFrequency="none"
+            android:text="Full Name:"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewRankPost"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Rank:"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOverviewPost" />
+        <TextView
+            android:id="@+id/textViewAgePost"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Age:"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNamePost" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textViewFavMoviePost"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hyphenationFrequency="none"
+            android:text="Favorite Movie:"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAgePost" />
+
+        <TextView
+            android:id="@+id/textViewOverviewPost"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:hyphenationFrequency="none"
+            android:text="Overview:"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFavMoviePost" />
+
+        <TextView
+            android:id="@+id/textViewRankPost"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Rank:"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePost"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOverviewPost" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
