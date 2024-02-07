@@ -75,16 +75,13 @@ class HomeFragment : Fragment() {
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 postList.clear()
-                for (postSnapshot in snapshot.children) {
-                    try {
-                        val post = postSnapshot.getValue(Posts::class.java)
-                        post?.let {
-                            postList.add(it)
-                        }
-                    } catch (e: Exception) {
-                        Log.e("HomeFragment", "Error parsing post data: ${e.message}")
+                for (i in snapshot.childrenCount - 1 downTo 0) {
+                    val postSnapshot = snapshot.children
+                    val list = postSnapshot.toList()
+                    val post = list.get(i.toInt()).getValue(Posts::class.java)
+                    post?.let {
+                        postList.add(it)
                     }
-
                 }
                 postAdapter.notifyDataSetChanged()
             }
