@@ -9,7 +9,6 @@ data class Posts(
     val rating: Int = 0,
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val createdAt:String? = null,
 ) {
 
 }
