@@ -21,6 +21,7 @@ class DetailMovieFragment : Fragment() {
     ): View {
         binding = FragmentDetailMovieBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
