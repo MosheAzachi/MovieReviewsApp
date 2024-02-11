@@ -75,6 +75,7 @@ class ProfileFragment : Fragment() {
                     profileBinding.editTextUpdateAge.setText(userAge)
                     profileBinding.editTextUpdateFavorite.setText(userFavorite)
                     Picasso.get().load(url).into(profileBinding.userProfileImage)
+
                 }
             }
         }
