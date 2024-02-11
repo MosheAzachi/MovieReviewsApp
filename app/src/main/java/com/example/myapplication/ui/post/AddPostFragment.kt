@@ -106,7 +106,7 @@ class AddPostFragment : Fragment() {
             }
         }
         addPostBinding.buttonCreatePost.setOnClickListener {
-            if (validateData()) {
+            if (validateData() && validateRank()) {
                 // Request location permission first
                 requestLocationPermission()
             }
@@ -171,6 +171,18 @@ class AddPostFragment : Fragment() {
         return addPostBinding.editTextReview.text.isNotEmpty() &&
                 addPostBinding.editTextRating.text.isNotEmpty() &&
                 movie.title != null
+    }
+    private fun validateRank(): Boolean {
+        if (addPostBinding.editTextRating.text.toString().toInt() in 1..10) {
+            return true
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Rank needed to be 1-10",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
     }
 
     private fun requestLocationPermission() {
